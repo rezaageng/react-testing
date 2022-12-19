@@ -9,6 +9,6 @@ test("renders text", () => {
 
 test("renders login link", () => {
   render(<Home />)
-  const link = screen.getByRole("link", { name: /login/i })
-  expect(link).toBeInTheDocument()
+  const link = screen.getByRole("link")
+  expect(link.textContent).toBe("Login")
 })
