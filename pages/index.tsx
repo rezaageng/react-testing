@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
-      <h1>im here to testing</h1>
+      <p>im here to testing</p>
     </div>
   )
 }
