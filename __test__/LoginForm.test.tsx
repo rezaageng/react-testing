@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import LoginForm from '../components/LoginForm';
 
 jest.mock('axios', () => ({
@@ -94,18 +100,20 @@ test('button should be enabled', () => {
   expect(buttonEl).toBeEnabled();
 });
 
-test('loading should be rendered when click', () => {
+test('loading should be rendered when click', async () => {
   render(<LoginForm />);
   const buttonEl = screen.getByRole('button');
   const usernameInputEl = screen.getByPlaceholderText(/username/i);
   const passwordInputEl = screen.getByPlaceholderText(/password/i);
   const testValue = 'test';
 
-  fireEvent.change(usernameInputEl, { target: { value: testValue } });
-  fireEvent.change(passwordInputEl, { target: { value: testValue } });
-  fireEvent.click(buttonEl);
+  act(() => {
+    fireEvent.change(usernameInputEl, { target: { value: testValue } });
+    fireEvent.change(passwordInputEl, { target: { value: testValue } });
+    fireEvent.click(buttonEl);
+  });
 
-  expect(buttonEl).toHaveTextContent(/loading/i);
+  await waitFor(() => expect(buttonEl).toHaveTextContent(/loading/i));
 });
 
 test('loading should not be rendered after fetching', async () => {
